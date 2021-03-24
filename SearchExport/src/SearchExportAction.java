@@ -89,7 +89,7 @@ public class SearchExportAction {
 					"C:\\Users\\Administrator\\Desktop\\DocHandler\\SearchExport.xlsx");
 			System.out.println("Excel File has been created successfully.");
 			wb.write(fileOut);
-
+			fileOut.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
