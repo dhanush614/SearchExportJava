@@ -56,7 +56,7 @@ public class SearchExportAction {
 			String casePropertyValues[] = new String[] { "LA_Name", "LA_DOB", "LA_Address" };
 			String casePropertyValues1 = "LA_Name, LA_DOB, LA_Address, classDescription";
 			String caseTypeValue = "LA_LoanProcessingCaseType";
-			String searchCriteria = "LA_Address='MAD'";
+			String searchCriteria = "LA_Address='MDU'";
 			String sql = "SELECT casePropertyValues FROM caseTypeValue WHERE searchCriteria";
 			sql = sql.replaceAll("casePropertyValues", casePropertyValues1);
 			sql = sql.replaceAll("caseTypeValue", caseTypeValue);
