@@ -92,22 +92,45 @@ public class SearchExportBatch {
 					System.out.println("Query: " + sql);
 					SearchSQL searchSql = new SearchSQL(sql);
 					RepositoryRowSet rowSetCase = search.fetchRows(searchSql, null, null, new Boolean(true));
+					XSSFWorkbook wb = new XSSFWorkbook();
+					XSSFSheet sheet = wb.createSheet("Search Results");
+					XSSFRow rowhead = sheet.createRow((short) 0);
 					Iterator it = rowSetCase.iterator();
-					while (it.hasNext()) {
+					int i = 0, c = 0;
+					if (it.hasNext()) {
 						RepositoryRow row = (RepositoryRow) it.next();
 						Properties props = row.getProperties();
 						Iterator propsIt = props.iterator();
 						while (propsIt.hasNext()) {
 							Property prop = (Property) propsIt.next();
-							System.out.println(prop.getPropertyName() + ": " + prop.getObjectValue());
+							rowhead.createCell(i).setCellValue(prop.getPropertyName());
+						}
+						i++;
+					}
+					while (it.hasNext()) {
+						int z = 0;
+						RepositoryRow row = (RepositoryRow) it.next();
+						XSSFRow excelRow = sheet.createRow((short) ++c);
+						Properties props = row.getProperties();
+						Iterator propsIt = props.iterator();
+						while (propsIt.hasNext()) {
+							Property prop = (Property) propsIt.next();
+							excelRow.createCell(z).setCellValue(prop.getObjectValue().toString());
+							z++;
 						}
 					}
+					OutputStream fileOut = new FileOutputStream(
+							"C:\\Users\\Administrator\\Desktop\\DocHandler\\SearchExport.xlsx");
+					System.out.println("Excel File has been created successfully.");
+					wb.write(fileOut);
+					fileOut.close();
 				} else {
 					System.out.println("No Templates Available, Please upload template and try again..!!");
 				}
 			}
 		} catch (Exception e) {
 			System.out.println(e);
+			e.printStackTrace();
 		} finally {
 			if (oldCmc != null) {
 				CaseMgmtContext.set(oldCmc);
